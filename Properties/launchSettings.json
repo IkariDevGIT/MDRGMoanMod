@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MoanMod": {
+      "commandName": "Project",
+      "hotReloadEnabled": false
+    }
+  }
+}

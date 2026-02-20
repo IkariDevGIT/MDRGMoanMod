@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <SignAssembly>False</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Il2CppInterop.Runtime" Version="1.5.1" />
+    <PackageReference Include="LavaGang.MelonLoader" Version="0.7.1" />
+    <PackageReference Include="UniverseLib.IL2CPP.Interop" Version="1.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppFungus">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2CppFungus.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppGameAssembly">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2CppGameAssembly.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppIC.Utility.Runtime">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2CppIC.Utility.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppLive2D.Cubism">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2CppLive2D.Cubism.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="del &quot;H:\MDRG0.95.10 - Windows\Mods\MoanMod.dll&quot;&#xA;copy &quot;$(TargetPath)&quot; &quot;H:\MDRG0.95.10 - Windows\Mods\&quot;&#xA;start &quot;&quot; &quot;H:\MDRG0.95.10 - Windows\My Dystopian Robot Girlfriend.exe&quot;" />
+  </Target>
+
+</Project>
