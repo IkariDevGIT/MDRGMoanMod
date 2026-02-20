@@ -1,68 +1,87 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- ========== CHANGE THIS TO YOUR GAME INSTALL DIRECTORY ========== -->
+    <GameDir>H:\MDRG0.95.14 - Windows</GameDir>
+    <!-- ================================================================ -->
+
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <SignAssembly>False</SignAssembly>
+    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+
+    <Il2CppAssemblies>$(GameDir)\MelonLoader\Il2CppAssemblies</Il2CppAssemblies>
+    <MelonLoaderNet6>$(GameDir)\MelonLoader\net6</MelonLoaderNet6>
+    <ModsDir>$(GameDir)\Mods</ModsDir>
+    <GameExe>My Dystopian Robot Girlfriend.exe</GameExe>
+
+    <StartAction>Program</StartAction>
+    <StartProgram>$([System.IO.Path]::GetFullPath('$(GameDir)\$(GameExe)'))</StartProgram>
   </PropertyGroup>
 
+  <!-- MelonLoader framework references -->
   <ItemGroup>
-    <PackageReference Include="Il2CppInterop.Runtime" Version="1.5.1" />
-    <PackageReference Include="LavaGang.MelonLoader" Version="0.7.1" />
-    <PackageReference Include="UniverseLib.IL2CPP.Interop" Version="1.5.1" />
+    <Reference Include="MelonLoader">
+      <HintPath>$(MelonLoaderNet6)\MelonLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppInterop.Runtime">
+      <HintPath>$(MelonLoaderNet6)\Il2CppInterop.Runtime.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
+  <!-- MDRG Il2Cpp assemblies -->
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppFungus">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2CppFungus.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Il2CppFungus.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppGameAssembly">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2CppGameAssembly.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Il2CppGameAssembly.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppIC.Utility.Runtime">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2CppIC.Utility.Runtime.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Il2CppIC.Utility.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppLive2D.Cubism">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2CppLive2D.Cubism.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Il2CppLive2D.Cubism.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.UI.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>..\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>H:\MDRG0.95.10 - Windows\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="del &quot;H:\MDRG0.95.10 - Windows\Mods\MoanMod.dll&quot;&#xA;copy &quot;$(TargetPath)&quot; &quot;H:\MDRG0.95.10 - Windows\Mods\&quot;&#xA;start &quot;&quot; &quot;H:\MDRG0.95.10 - Windows\My Dystopian Robot Girlfriend.exe&quot;" />
+  <Target Name="DeployMod" AfterTargets="Build">
+    <Delete Files="$(ModsDir)\$(TargetFileName)" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsDir)" />
+    <Message Importance="high" Text="Deployed $(TargetFileName) to $(ModsDir)" />
   </Target>
 
 </Project>
