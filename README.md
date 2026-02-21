@@ -1,4 +1,4 @@
-﻿﻿# MoanMod
+# MoanMod
 
 > # ⚠️ IMPORTANT WARNING ⚠️
 >
