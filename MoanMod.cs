@@ -5,7 +5,7 @@ using MelonLoader.Utils;
 using System.Reflection;
 using System.Linq;
 
-[assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "1.4.0", "IkariDev")]
+[assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "1.4.0-pre", "IkariDev")]
 [assembly: MelonGame("IncontinentCell", "My Dystopian Robot Girlfriend")]
 
 namespace MoanMod
