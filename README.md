@@ -35,7 +35,7 @@
 
 ## Overview
 
-Audio and expression mod for *My Dystopian Robot Girlfriend* with pleasure-based moaning and breathing.
+Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moaning based on pleasure and breathing.
 
 ## Features
 
@@ -141,6 +141,12 @@ Edit `MoanModConfig.cs` to adjust:
 * Mouth animation ranges
 
 Rebuild after making changes.
+
+## Credits
+
+* Sheep (The MDRG Dev) - Helped me with some parts of the code, answered many ~~stupid~~ questions i asked.
+* Ivory61 - Helped with Popup code.
+
 
 ## Requirements
 
