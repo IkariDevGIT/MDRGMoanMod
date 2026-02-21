@@ -76,6 +76,9 @@
     <Reference Include="UnityEngine.UnityWebRequestModule">
       <HintPath>$(Il2CppAssemblies)\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
+    <Reference Include="Il2CppIC.UI">
+      <HintPath>$(Il2CppAssemblies)\Il2CppIC.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="DeployMod" AfterTargets="Build">
