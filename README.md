@@ -40,12 +40,12 @@ Audio and expression mod for *My Dystopian Robot Girlfriend* with pleasure-based
 ## Features
 
 * **Pleasure-Based Responsiveness** - Moans trigger based on pleasure changes. Higher pleasure makes her more reactive, while lower pleasure requires larger changes. Sensitivity adjusts automatically throughout the scene.
-* **Sex Scene Clustering** - Moans build naturally into clusters. The first moan often leads to more, but each additional moan becomes less likely. Creates organic escalation instead of constant noise.
+* **Moan Clustering** - Moans build naturally into clusters. The first moan often leads to more, but each additional moan becomes less likely. Creates organic escalation instead of constant noise.
 * **Intelligent Breathing** - Breathing becomes more frequent during intense scenes. Light activity rarely triggers breathing, but heavy moaning leads to natural breathing between sounds.
 * **Dynamic Moan Frequency** - Moan speed depends on in-game stats. Higher lust and sympathy make her respond more frequently. Lower stats produce slower, more spaced-out moans.
-* **Expression Control** - Sex moans adjust her facial expressions for more engaging scenes. Expressions reset when scenes end.
+* **Dynamic Expressions** - Sex moans adjust her facial expressions for more engaging scenes.
 * **Audio Variety** - The mod prevents the same sound from repeating over and over by cycling through clips. Previous sounds need time before they can play again.
-* **Scene States** - Different sounds for scene start (single startup moan), ongoing action, and scene end (conclusion moan after cumming stops).
+* **Moan States** - Different sounds for while-sex moans, cumming start (single startup moan), cumming ongoing, and cumming end (conclusion moan after cumming stops).
 
 ## Installation
 
