@@ -14,6 +14,8 @@
 > > **If this warning is still here**, **DO NOT** attempt installation, it will crash. Wait for the required update.
 >
 > **Ignoring this warning will break the game. Seriously, do not skip it.**
+>
+> **UPDATE**: PR waiting for merge: https://github.com/LavaGang/MelonLoader/pull/1104
 
 ## Table of Contents
 
