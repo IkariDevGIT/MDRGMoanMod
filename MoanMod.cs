@@ -5,7 +5,7 @@ using MelonLoader.Utils;
 using System.Reflection;
 using System.Linq;
 
-[assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "1.4.0-pre", "IkariDev")]
+[assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "1.4.1", "IkariDev")]
 [assembly: MelonGame("IncontinentCell", "My Dystopian Robot Girlfriend")]
 
 namespace MoanMod
@@ -864,7 +864,7 @@ namespace MoanMod
             }
 
             string title = "MoanMod - Update Notifications";
-            string message = "Would you like to enable automatic update checking for MoanMod? This will notify you when new versions are available.";
+            string message = "Would you like to enable automatic update checking for MoanMod? This will notify you when new versions are available.\n\n(This will call the Github API every start of the game with a 30 minute cooldown.)";
 
             var choices = new Il2CppSystem.Collections.Generic.List<Il2Cpp.PopupChoice>();
             choices.Add(new Il2Cpp.PopupChoice("Enable", new System.Action(() =>

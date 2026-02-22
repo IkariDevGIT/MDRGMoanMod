@@ -33,6 +33,8 @@
 
 > **Lemonloader Notice**: Lemonloader is **not** supported.
 
+> This mod is only compatible with MDRG 0.95 and onwards.
+
 ## Overview
 
 Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moaning based on pleasure and breathing.
@@ -51,12 +53,16 @@ Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moanin
 
 ### What you need:
 
-* MelonLoader: [https://github.com/LavaGang/MelonLoader/releases](https://github.com/LavaGang/MelonLoader/releases)
-* Mods.zip from [https://github.com/IkariDevGIT/MDRGMoanMod/releases](https://github.com/IkariDevGIT/MDRGMoanMod/releases)
+* MelonLoader: [LavaGang/MelonLoader/releases](https://github.com/LavaGang/MelonLoader/releases)
+* Mods.zip from [IkariDevGIT/MDRGMoanMod/releases](https://github.com/IkariDevGIT/MDRGMoanMod/releases)
+
+> Note: MAKE SURE to get the correct version, the version listed in the release (via "Compatible MDRG versions") needs to match up your MDRG Game version.
 
 ### Steps:
 
-1. Get MelonLoader set up:
+1. Download the game (If not already downloaded)
+
+2. Get MelonLoader set up:
 
    * Download MelonLoader from the link above
    * Press "Add game manually"
@@ -65,11 +71,11 @@ Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moanin
    * Enable "nightly builds"
    * Hit install
 
-2. First launch:
+3. First launch:
 
    * Open the game once (this creates the necessary folders)
 
-3. Install the mod:
+4. Install the mod:
 
    * Go to your game folder
    * Extract the contents of Mods.zip directly into the `/Mods/` folder
@@ -100,7 +106,7 @@ Updating the mod works the same way as uninstalling:
 1. Go to your game’s `/Mods/` folder
 2. Delete `MoanMod.dll`
 3. Delete the `MoanMod/` folder
-4. Install the new version by following the installation steps above
+4. Install the new version (From [here](https://github.com/IkariDevGIT/MDRGMoanMod/releases)) by following the [installation steps](#installation)
 
 ## Building from Source
 
@@ -111,7 +117,9 @@ Updating the mod works the same way as uninstalling:
 
 ### Setup
 
-1. Get MelonLoader set up:
+1. Download the game (If not already downloaded)
+
+2. Get MelonLoader set up:
    - Download MelonLoader from the link above
    - Press "Add game manually"
    - Find and select the game's .exe file
@@ -119,15 +127,15 @@ Updating the mod works the same way as uninstalling:
    - Enable "nightly builds"
    - Hit install
 
-2. First launch:
+3. First launch:
    - Open the game once (this creates the necessary folders)
 
-3. Clone or extract the repository
-4. Edit `MoanMod.csproj` and set your game directory:
+4. Clone or extract the repository
+5. Edit `MoanMod.csproj` and set your game directory:
    `<GameDir>C:\Path\To\Your\Game\Install</GameDir>`
-5. Open `MoanMod.sln` in Visual Studio
-6. Build the project
-7. The `.dll` automatically deploys to your Mods folder
+6. Open `MoanMod.sln` in Visual Studio
+7. Build the project
+8. The `.dll` automatically deploys to your Mods folder
 
 ## Configuration
 
@@ -146,6 +154,8 @@ Rebuild after making changes.
 
 * Sheep (The MDRG Dev) - Helped me with some parts of the code, answered many ~~stupid~~ questions i asked.
 * Ivory61 - Helped with Popup code.
+
+* All the kind people from the MDRG Discord - Helped me with parts of the code, answered questions and play-tested my mod.
 
 
 ## Requirements

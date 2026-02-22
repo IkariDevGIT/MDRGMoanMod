@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!-- ========== CHANGE THIS TO YOUR GAME INSTALL DIRECTORY ========== -->
-    <GameDir>H:\MDRG0.95.14 - Windows</GameDir>
+    <GameDir>H:\MDRG0.95.15 - Windows</GameDir>
     <!-- ================================================================ -->
 
     <TargetFramework>net6.0</TargetFramework>
