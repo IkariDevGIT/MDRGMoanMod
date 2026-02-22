@@ -1,22 +1,5 @@
 # MoanMod
 
-> # ⚠️ IMPORTANT WARNING ⚠️
->
-> **DO NOT INSTALL MELONLOADER OR THIS MOD YET!**
->
-> Due to **Cpp2IL incompatibilities** (a dependency of MelonLoader) with the **Unity version this game uses**, **installing MelonLoader will currently make the game crash immediately**.
->
-> You **must wait** from **21st February 2025** until **~23rd February 2025**.
->
-> After **23rd February**, check this repository again:
->
-> > **If this warning is gone**, you may follow the guide below and install the mod.
-> > **If this warning is still here**, **DO NOT** attempt installation, it will crash. Wait for the required update.
->
-> **Ignoring this warning will break the game. Seriously, do not skip it.**
->
-> **UPDATE**: PR waiting for merge: https://github.com/LavaGang/MelonLoader/pull/1104
-
 ## Table of Contents
 
 * [Version Notice](#version-notice)
