@@ -33,7 +33,7 @@
 
 > **Lemonloader Notice**: Lemonloader is **not** supported.
 
-> This mod is only compatible with MDRG 0.95 and onwards.
+> This mod is only compatible with MDRG 0.95 and onwards. 0.90 and below is **NOT** supported.
 
 ## Overview
 
