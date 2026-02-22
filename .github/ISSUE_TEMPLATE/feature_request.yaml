@@ -1,0 +1,47 @@
+name: Feature Request
+description: Suggest a new feature, idea, or change
+title: "[Feature] "
+labels: ["enhancement"]
+
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I have searched for duplicate requests
+          required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options:
+        - New feature
+        - Change to existing feature
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe your idea
+      description: What do you want added or changed, and why?
+      placeholder: "I think it would be useful if..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: usecase
+    attributes:
+      label: Use case
+      description: When would this be useful? What problem does it solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other ways you've thought of to solve this, or workarounds you currently use.

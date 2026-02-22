@@ -1,0 +1,50 @@
+name: Bug Report
+description: Report a bug with the mod
+title: "[Bug] "
+labels: ["bug"]
+
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I have searched for duplicate issues
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: What happened? What did you expect to happen instead?
+      placeholder: "When I do X, Y happens instead of Z."
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1. 
+        2. 
+        3. 
+        ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-mods
+    attributes:
+      label: Other mods installed
+      description: List other installed mods, or say if you tested without them.
+      placeholder: "Mod A 1.0, Mod B 2.3. bug persists without them."
+
+  - type: textarea
+    id: log
+    attributes:
+      label: MelonLoader log
+      description: "Paste the full contents of `MelonLoader/Latest.log`"
+      render: shell
+    validations:
+      required: true
