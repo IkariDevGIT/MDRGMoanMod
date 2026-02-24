@@ -18,7 +18,7 @@
 
 > **Version Notice**: This mod is actively developed and tested only for the **latest version** of My Dystopian Robot Girlfriend. Using it with older game versions may result in bugs or crashes.
 
-> **Lemonloader Notice**: Lemonloader is **not** supported.
+> This mod is ONLY supported on Windows and Linux officialy. I do not give support for **Lemonloader**/Android not working.
 
 > This mod is only compatible with MDRG 0.95 and onwards. 0.90 and below is **NOT** supported.
 
