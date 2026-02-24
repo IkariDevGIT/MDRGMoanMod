@@ -26,6 +26,9 @@
 
 Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moaning based on pleasure and breathing.
 
+> Important note: You need to have played through the prologue, in the prologue, moaning is disabled.
+> Directly after the prologue you may notice that Jun doesn't moan as often as for example in my showcase video. Thats due to the this mod adjusting to how much she likes you, and how attracted she is to you. So she will moan more as you play the game more.
+
 ## Features
 
 * **Pleasure-Based Responsiveness** - Moans trigger based on pleasure changes. Higher pleasure makes her more reactive, while lower pleasure requires larger changes. Sensitivity adjusts automatically throughout the scene.
