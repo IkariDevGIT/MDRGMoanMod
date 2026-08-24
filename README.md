@@ -1,17 +1,5 @@
 # MoanMod
 
-## Tutorial video by KlahTune (Easy installation!)
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=z99mzG_yVjg">
-    <img src="https://img.youtube.com/vi/z99mzG_yVjg/maxresdefault.jpg" alt="Tutorial video by KlahTune">
-  </a>
-</p>
-<p align="center">
-  Click on it to open the video.
-</p>
-
-<br><br><br><br><br>
-
 [Preview video of the mod](https://tr.ee/W9rxezOVbP)
 
 ## Table of Contents
@@ -122,6 +110,30 @@ Updating the mod works the same way as uninstalling:
 2. Delete `MoanMod.dll`
 3. Delete the `MoanMod/` folder
 4. Install the new version (From [here](https://github.com/IkariDevGIT/MDRGMoanMod/releases)) by following the [installation steps](#installation)
+
+## Using Your Own Moans
+
+You can replace the included audio files with your own without rebuilding the mod.
+
+1. Close the game.
+2. Go to `/Mods/MoanMod/`.
+3. Add or replace `.wav` files in the folder for the sound you want to change:
+- `/while/` - Regular moans during sex
+- `/cumming/start/` - Played when cumming starts
+- `/cumming/while/` - Played while cumming
+- `/cumming/end/` - Played when cumming ends
+- `/breath/` - Breathing sounds
+
+4. If you only want your own sounds, delete the original `.wav` files from those folders.
+5. Start the game again. The mod loads the audio files on startup.
+
+You can put multiple audio files in each folder. The filenames do not matter.
+
+> [!IMPORTANT]
+> Audio files must be `.wav` files using **8-bit or 16-bit PCM** audio.
+
+> [!WARNING]
+> `/cumming/while/` must contain at least one valid `.wav` file, otherwise the mod will fail to load its audio.
 
 ## Building from Source
 
