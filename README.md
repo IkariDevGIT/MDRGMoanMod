@@ -158,11 +158,12 @@ You can put multiple audio files in each folder. The filenames do not matter.
    - Open the game once (this creates the necessary folders)
 
 4. Clone or extract the repository
-5. Edit `MoanMod.csproj` and set your game directory:
+5. Copy `Local.props.example` content into a new file called `Local.props`
+6. Edit `Local.props` and set your game directory:
    `<GameDir>C:\Path\To\Your\Game\Install</GameDir>`
-6. Open `MoanMod.sln` in Visual Studio
-7. Build the project
-8. The `.dll` automatically deploys to your Mods folder
+7. Open `MoanMod.sln` in Visual Studio
+8. Build the project
+9. The `.dll` automatically deploys to your Mods folder
 
 ## Configuration
 

@@ -1,90 +1,96 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+    <Import Project="Local.props" Condition="Exists('Local.props')" />
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
 
-  <PropertyGroup>
-    <!-- ========== CHANGE THIS TO YOUR GAME INSTALL DIRECTORY ========== -->
-    <GameDir>H:\factorial-omega-win-64-0.97.11</GameDir>
-    <!-- ================================================================ -->
+        <Il2CppAssemblies>$(GameDir)\MelonLoader\Il2CppAssemblies</Il2CppAssemblies>
+        <MelonLoaderNet6>$(GameDir)\MelonLoader\net6</MelonLoaderNet6>
+        <ModsDir>$(GameDir)\Mods</ModsDir>
+        <GameExe>My Dystopian Robot Girlfriend.exe</GameExe>
 
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+        <StartAction>Program</StartAction>
+        <StartProgram>$([System.IO.Path]::GetFullPath('$(GameDir)\$(GameExe)'))</StartProgram>
+    </PropertyGroup>
 
-    <Il2CppAssemblies>$(GameDir)\MelonLoader\Il2CppAssemblies</Il2CppAssemblies>
-    <MelonLoaderNet6>$(GameDir)\MelonLoader\net6</MelonLoaderNet6>
-    <ModsDir>$(GameDir)\Mods</ModsDir>
-    <GameExe>My Dystopian Robot Girlfriend.exe</GameExe>
+    <Target Name="ValidateSetup" BeforeTargets="BeforeBuild">
+        <Error Condition="!Exists('Local.props')" Text="Missing Local.props file. Copy Local.props.example and set your GameDir" />
 
-    <StartAction>Program</StartAction>
-    <StartProgram>$([System.IO.Path]::GetFullPath('$(GameDir)\$(GameExe)'))</StartProgram>
-  </PropertyGroup>
+        <Error Condition="'$(GameDir)' == ''" Text="GameDir is not set. Define it in Local.props or via MDRG_GAME_DIR env var" />
 
-  <!-- MelonLoader framework references -->
-  <ItemGroup>
-    <Reference Include="MelonLoader">
-      <HintPath>$(MelonLoaderNet6)\MelonLoader.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppInterop.Runtime">
-      <HintPath>$(MelonLoaderNet6)\Il2CppInterop.Runtime.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+        <Error Condition="!Exists('$(GameDir)')" Text="GameDir does not exist: $(GameDir)" />
 
-  <!-- MDRG Il2Cpp assemblies -->
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(Il2CppAssemblies)\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppFungus">
-      <HintPath>$(Il2CppAssemblies)\Il2CppFungus.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppGameAssembly">
-      <HintPath>$(Il2CppAssemblies)\Il2CppGameAssembly.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppIC.Utility.Runtime">
-      <HintPath>$(Il2CppAssemblies)\Il2CppIC.Utility.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppLive2D.Cubism">
-      <HintPath>$(Il2CppAssemblies)\Il2CppLive2D.Cubism.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2Cppmscorlib">
-      <HintPath>$(Il2CppAssemblies)\Il2Cppmscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.AudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.IMGUIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.InputLegacyModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.TextRenderingModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIModule">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.UIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>$(Il2CppAssemblies)\UnityEngine.UnityWebRequestModule.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppIC.UI">
-      <HintPath>$(Il2CppAssemblies)\Il2CppIC.UI.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+        <Error Condition="!Exists('$(GameDir)\MelonLoader')" Text="MelonLoader not found in $(GameDir); is this the correct game folder?" />
+    </Target>
 
-  <Target Name="DeployMod" AfterTargets="Build">
-    <Delete Files="$(ModsDir)\$(TargetFileName)" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsDir)" />
-    <Message Importance="high" Text="Deployed $(TargetFileName) to $(ModsDir)" />
-  </Target>
+	<!-- MelonLoader framework references -->
+    <ItemGroup>
+        <Reference Include="MelonLoader">
+            <HintPath>$(MelonLoaderNet6)\MelonLoader.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2CppInterop.Runtime">
+            <HintPath>$(MelonLoaderNet6)\Il2CppInterop.Runtime.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 
+    <!-- MDRG Il2Cpp assemblies -->
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>$(Il2CppAssemblies)\Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2CppFungus">
+            <HintPath>$(Il2CppAssemblies)\Il2CppFungus.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2CppGameAssembly">
+            <HintPath>$(Il2CppAssemblies)\Il2CppGameAssembly.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2CppIC.Utility.Runtime">
+            <HintPath>$(Il2CppAssemblies)\Il2CppIC.Utility.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2CppLive2D.Cubism">
+            <HintPath>$(Il2CppAssemblies)\Il2CppLive2D.Cubism.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2Cppmscorlib">
+            <HintPath>$(Il2CppAssemblies)\Il2Cppmscorlib.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.AudioModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.IMGUIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UIModule">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.UIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestModule">
+            <HintPath>$(Il2CppAssemblies)\UnityEngine.UnityWebRequestModule.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2CppIC.UI">
+            <HintPath>$(Il2CppAssemblies)\Il2CppIC.UI.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <Target Name="DeployMod" AfterTargets="Build">
+        <Delete Files="$(ModsDir)\$(TargetFileName)" ContinueOnError="true" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsDir)" />
+        <Message Importance="high" Text="Deployed $(TargetFileName) to $(ModsDir)" />
+    </Target>
 </Project>

@@ -1,250 +1,121 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Text.Json;
 using MelonLoader;
+using MoanMod.MoanModPreferences;
+using MoanMod.PopupService;
+using UnityEngine;
 using UnityEngine.Networking;
 
-namespace MoanMod
+namespace MoanMod;
+
+
+public class GitHubRelease
 {
-    public class SemanticVersion : IComparable<SemanticVersion>
+    public string TagName { get; set; }
+    public string HtmlUrl { get; set; }
+    public SemanticVersion Version { get; set; }
+}
+
+public class UpdateChecker
+{
+    private bool _isCheckingForUpdates = false;
+    private const float UpdateCheckCooldown = 1800f; // 30 minutes
+
+    private readonly IPopupService _popupService = new OverlayPopupService();
+    private readonly IMoanModPreferences _modPreferences = MelonMoanModPreferences.Instance;
+
+    public IEnumerator CheckForUpdatesCoroutine(SemanticVersion version)
     {
-        public int Major { get; set; }
-        public int Minor { get; set; }
-        public int Patch { get; set; }
-        public string PrereleaseSuffix { get; set; } = "";
+        var currentTicks = DateTime.UtcNow.Ticks;
+        var ticksSinceLast = currentTicks - _modPreferences.LastUpdateCheckTime;
+        var secondsSinceLastCheck = ticksSinceLast / 10000000.0;
 
-        public bool IsPrerelease => !string.IsNullOrEmpty(PrereleaseSuffix);
+        if (_isCheckingForUpdates || secondsSinceLastCheck <= UpdateCheckCooldown) yield break;
 
-        public SemanticVersion(string versionString)
+
+        _modPreferences.LastUpdateCheckTime = currentTicks;
+        var githubRequest = UnityWebRequest.Get("https://api.github.com/repos/IkariDevGIT/MDRGMoanMod/releases?per_page=10");
+        githubRequest.downloadHandler = new DownloadHandlerBuffer();
+    
+        yield return githubRequest.SendWebRequest();
+
+        if (githubRequest.result != UnityWebRequest.Result.Success)
         {
-            Parse(versionString);
+            MelonLogger.Error($"Failed to fetch releases: {githubRequest.error}");
+            _isCheckingForUpdates = false;
+            yield break;
         }
+        
+        string json = githubRequest.downloadHandler.text;
+        var releases = ParseGitHubReleasesJson(json);
 
-        private void Parse(string versionString)
+        MaybeSendPopup(version, releases);
+    }
+
+    public void MaybeSendPopup(SemanticVersion currentVersion, IList<GitHubRelease> releases)
+    {
+        var suggestedRelease = releases
+            .Where(r => r.Version > currentVersion)
+            .Where(r => currentVersion.IsPrerelease || !r.Version.IsPrerelease) // If stable, ignore pre-releases
+            .OrderByDescending(r => r.Version)
+            .FirstOrDefault();
+
+        if (suggestedRelease == null || suggestedRelease.Version <= currentVersion) return;
+
+        var choices = new[] {
+            new PopupChoice("Skip", () => { }),
+            new PopupChoice("Open in Browser", () => OpenUrlInBrowser(suggestedRelease.HtmlUrl)),
+            new PopupChoice("Disable Notifications", () => _modPreferences.UpdateCheckingEnabled = false)
+        };
+
+        var updateMessage = $"Your version \"{currentVersion}\" is outdated, get {suggestedRelease.Version} on github.";
+        _popupService.ChoicePopup("MoanMod - Update Available", updateMessage, choices);
+    }
+
+    private IList<GitHubRelease> ParseGitHubReleasesJson(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json)) return new List<GitHubRelease>();
+
+        try
         {
-            versionString = versionString.TrimStart('v');
+            using var doc = JsonDocument.Parse(json);
+            if (doc.RootElement.ValueKind != JsonValueKind.Array) return new List<GitHubRelease>();
 
-            var parts = versionString.Split('-');
-            var versionPart = parts[0];
-            PrereleaseSuffix = parts.Length > 1 ? string.Join("-", parts.Skip(1)) : "";
-
-            var versionNumbers = versionPart.Split('.');
-            if (versionNumbers.Length < 3)
-                throw new ArgumentException($"Invalid version format: {versionString}");
-
-            if (!int.TryParse(versionNumbers[0], out int major) ||
-                !int.TryParse(versionNumbers[1], out int minor) ||
-                !int.TryParse(versionNumbers[2], out int patch))
-                throw new ArgumentException($"Invalid version format: {versionString}");
-
-            Major = major;
-            Minor = minor;
-            Patch = patch;
+            return doc.RootElement.EnumerateArray()
+                .Select(CreateReleaseFromElement)
+                .Where(release => release != null)
+                .ToList();
         }
-
-        public int CompareTo(SemanticVersion other)
+        catch (JsonException ex)
         {
-            if (other == null) return 1;
-
-            if (Major != other.Major) return Major.CompareTo(other.Major);
-            if (Minor != other.Minor) return Minor.CompareTo(other.Minor);
-            if (Patch != other.Patch) return Patch.CompareTo(other.Patch);
-
-            if (!IsPrerelease && !other.IsPrerelease) return 0;
-
-            if (!IsPrerelease && other.IsPrerelease) return 1;
-            if (IsPrerelease && !other.IsPrerelease) return -1;
-
-            return PrereleaseSuffix.CompareTo(other.PrereleaseSuffix);
-        }
-
-        public override string ToString()
-        {
-            var version = $"{Major}.{Minor}.{Patch}";
-            if (!string.IsNullOrEmpty(PrereleaseSuffix))
-                version += $"-{PrereleaseSuffix}";
-            return version;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is SemanticVersion other && CompareTo(other) == 0;
-        }
-
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
-
-        public static bool operator >(SemanticVersion left, SemanticVersion right)
-        {
-            return left.CompareTo(right) > 0;
-        }
-
-        public static bool operator <(SemanticVersion left, SemanticVersion right)
-        {
-            return left.CompareTo(right) < 0;
-        }
-
-        public static bool operator >=(SemanticVersion left, SemanticVersion right)
-        {
-            return left.CompareTo(right) >= 0;
-        }
-
-        public static bool operator <=(SemanticVersion left, SemanticVersion right)
-        {
-            return left.CompareTo(right) <= 0;
+            MelonLogger.Error($"Failed to parse GitHub JSON: {ex.Message}");
+            return new List<GitHubRelease>();
         }
     }
 
-    public class GitHubRelease
+    private GitHubRelease CreateReleaseFromElement(JsonElement element)
     {
-        public string TagName { get; set; }
-        public string HtmlUrl { get; set; }
-        public SemanticVersion Version { get; set; }
+        if (!element.TryGetProperty("tag_name", out var tag) ||
+            !element.TryGetProperty("html_url", out var url))
+            return null;
+
+        string tagName = tag.GetString();
+
+        if (!SemanticVersion.TryParse(tagName, out var version)) return null;
+
+        return new GitHubRelease
+        {
+            TagName = tagName,
+            HtmlUrl = url.GetString(),
+            Version = version
+        };
     }
 
-    public class UpdateChecker
+    private void OpenUrlInBrowser(string url)
     {
-        private UnityWebRequest githubRequest = null;
-        private List<GitHubRelease> cachedReleases = null;
-        private string updateReleaseUrl = null;
-        private string currentVersion = null;
+        if (string.IsNullOrEmpty(url)) return;
 
-        public List<GitHubRelease> CachedReleases => cachedReleases;
-        public string UpdateReleaseUrl => updateReleaseUrl;
-        public bool IsCheckComplete => cachedReleases != null;
-
-        public void StartCheck(string version)
-        {
-            if (githubRequest != null)
-                return;
-
-            currentVersion = version;
-            githubRequest = UnityWebRequest.Get("https://api.github.com/repos/IkariDevGIT/MDRGMoanMod/releases?per_page=10");
-            githubRequest.downloadHandler = new DownloadHandlerBuffer();
-            githubRequest.SendWebRequest();
-        }
-
-        public void Update()
-        {
-            if (githubRequest == null || !githubRequest.isDone)
-                return;
-
-            if (githubRequest.result == UnityWebRequest.Result.Success)
-            {
-                string json = githubRequest.downloadHandler.text;
-                var releases = ParseGitHubReleasesJson(json);
-                cachedReleases = releases;
-
-                string updateMessage = GetUpdateMessage(currentVersion, releases);
-                if (!string.IsNullOrEmpty(updateMessage))
-                {
-                    updateReleaseUrl = GetLatestReleaseUrl(currentVersion, releases);
-                }
-            }
-            else
-            {
-                MelonLogger.Error($"Failed to fetch releases: {githubRequest.error}");
-                cachedReleases = new System.Collections.Generic.List<GitHubRelease>();
-            }
-
-            githubRequest.Dispose();
-            githubRequest = null;
-        }
-
-        public static string GetLatestReleaseUrl(string currentVersionStr, List<GitHubRelease> releases)
-        {
-            try
-            {
-                var currentVersion = new SemanticVersion(currentVersionStr);
-                var suggestedRelease = FindSuggestedRelease(currentVersion, releases);
-
-                if (suggestedRelease != null)
-                {
-                    return suggestedRelease.HtmlUrl;
-                }
-            }
-            catch (Exception) { }
-
-            return null;
-        }
-
-        public static string GetUpdateMessage(string currentVersionStr, List<GitHubRelease> releases)
-        {
-            try
-            {
-                var currentVersion = new SemanticVersion(currentVersionStr);
-                var suggestedRelease = FindSuggestedRelease(currentVersion, releases);
-
-                if (suggestedRelease != null && suggestedRelease.Version > currentVersion)
-                {
-                    return $"Your version \"{currentVersionStr}\" is outdated, get {suggestedRelease.Version} on github.";
-                }
-            }
-            catch (Exception) { }
-
-            return null;
-        }
-
-        private static GitHubRelease FindSuggestedRelease(SemanticVersion currentVersion, List<GitHubRelease> releases)
-        {
-            if (releases == null || releases.Count == 0)
-                return null;
-
-            var sortedReleases = releases.OrderByDescending(r => r.Version).ToList();
-
-            if (currentVersion.IsPrerelease)
-            {
-                var newer = sortedReleases.FirstOrDefault(r => r.Version > currentVersion);
-                return newer;
-            }
-            else
-            {
-                var newerStable = sortedReleases.FirstOrDefault(r => !r.Version.IsPrerelease && r.Version > currentVersion);
-                return newerStable;
-            }
-        }
-
-        private List<GitHubRelease> ParseGitHubReleasesJson(string json)
-        {
-            var releases = new List<GitHubRelease>();
-
-            try
-            {
-                using (JsonDocument doc = JsonDocument.Parse(json))
-                {
-                    var root = doc.RootElement;
-                    if (root.ValueKind == JsonValueKind.Array)
-                    {
-                        foreach (var element in root.EnumerateArray())
-                        {
-                            if (element.TryGetProperty("tag_name", out var tagNameElement) &&
-                                element.TryGetProperty("html_url", out var htmlUrlElement))
-                            {
-                                string tagName = tagNameElement.GetString();
-                                string htmlUrl = htmlUrlElement.GetString();
-
-                                try
-                                {
-                                    var version = new SemanticVersion(tagName);
-                                    releases.Add(new GitHubRelease
-                                    {
-                                        TagName = tagName,
-                                        HtmlUrl = htmlUrl,
-                                        Version = version
-                                    });
-                                }
-                                catch (ArgumentException) { }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception) { }
-
-            return releases;
-        }
+        try { Application.OpenURL(url); }
+        catch (Exception ex) { MelonLogger.Error($"Failed to open browser: {ex.Message}"); }
     }
 }
