@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!-- ========== CHANGE THIS TO YOUR GAME INSTALL DIRECTORY ========== -->
-    <GameDir>H:\factorial-omega-win-64-0.95.16</GameDir>
+    <GameDir>H:\factorial-omega-win-64-0.97.11</GameDir>
     <!-- ================================================================ -->
 
     <TargetFramework>net6.0</TargetFramework>
