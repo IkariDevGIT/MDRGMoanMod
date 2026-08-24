@@ -1,17 +1,5 @@
 # MoanMod
 
-## Tutorial video by KlahTune (Easy installation!)
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=z99mzG_yVjg">
-    <img src="https://img.youtube.com/vi/z99mzG_yVjg/maxresdefault.jpg" alt="Tutorial video by KlahTune">
-  </a>
-</p>
-<p align="center">
-  Click on it to open the video.
-</p>
-
-<br><br><br><br><br>
-
 [Preview video of the mod](https://tr.ee/W9rxezOVbP)
 
 ## Table of Contents
