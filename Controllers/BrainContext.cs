@@ -71,7 +71,7 @@ public sealed class BrainContext
             sceneType: SceneFrom(brain),
             lust: gameVars?.lust ?? 0,
             sympathy: gameVars?.sympathy ?? 0,
-            prologueFinished: stage?.IsPrologueFinished() ?? false
+            prologueFinished: Il2Cpp.GameScript.HasGameStarted && (stage?.IsPrologueFinished() ?? false)
         );
     }
 }

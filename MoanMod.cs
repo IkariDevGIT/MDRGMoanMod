@@ -63,7 +63,7 @@ public class MoanMod : MelonMod
 
     private void ValidateGameVersion()
     {
-        if (_modVersion.MajorMinorEquals(MoanModConfig.ExpectedGameVersion)) return;
+        if (SemanticVersion.TryParse(Application.version, out var gameVersion) && gameVersion.MajorMinorEquals(MoanModConfig.ExpectedGameVersion)) return;
 
         MelonLogger.Warning("================================================================================");
         MelonLogger.Warning("==================== !!! VERSION MISMATCH WARNING !!! ==========================");

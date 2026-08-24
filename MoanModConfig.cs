@@ -93,7 +93,7 @@ public readonly struct ClusterSettings
 public static class MoanModConfig
 {
     // Game version
-    public static readonly SemanticVersion ExpectedGameVersion = new SemanticVersion(0, 95, 0);
+    public static readonly SemanticVersion ExpectedGameVersion = new SemanticVersion(0, 97, 0);
 
     // Mouth animation
     public static readonly FloatRange MouthOpen = new(min: 0.4f, max: 0.8f);
