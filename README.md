@@ -181,7 +181,7 @@ Rebuild after making changes.
 ## Credits
 
 * Sheep (The MDRG Dev) - Helped me with some parts of the code, answered many ~~stupid~~ questions i asked.
-* Ivory61 - Helped with Popup code.
+* Ivory61 - Helped with Popup code and refactored the mod.
 * KlahTune - For letting me post this on the official Itch of the game.
 
 * All the kind people from the MDRG Discord - Helped me with parts of the code, answered questions and play-tested my mod.
