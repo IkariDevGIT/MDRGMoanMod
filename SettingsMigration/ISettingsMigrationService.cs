@@ -1,8 +1,7 @@
 namespace MoanMod.SettingsMigration;
 
-/// <summary>Detects mod updates and, when tuning defaults may have changed, offers to reset them.</summary>
+/// <summary>When tuning defaults may have changed since the user's last install, offers to reset them.</summary>
 public interface ISettingsMigrationService
 {
-    /// <summary>Prompts the user if this run follows an update from an older MoanMod version, then records the current version.</summary>
-    System.Collections.IEnumerator PromptIfNeeded(SemanticVersion currentVersion);
+    System.Collections.IEnumerator PromptIfNeeded();
 }

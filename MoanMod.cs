@@ -5,8 +5,10 @@ using MoanMod.Config;
 using MoanMod.Controllers;
 using MoanMod.MoanModPreferences;
 using MoanMod.PopupService;
+using MoanMod.ReleaseNotices;
 using MoanMod.SettingsMenu;
 using MoanMod.SettingsMigration;
+using MoanMod.UpdateDetection;
 using UnityEngine;
 
 [assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "2.0.0", "IkariDev")]
@@ -28,6 +30,8 @@ public class MoanMod : MelonMod
     private IPopupService _popupService;
     private ISettingsMenuService _settingsMenu;
     private ISettingsMigrationService _settingsMigration;
+    private IModUpdateState _updateState;
+    private IReleaseNoticeService _releaseNotices;
 
     private IHeadpatController _headpat;
     private IMouthController _mouth;
@@ -58,12 +62,14 @@ public class MoanMod : MelonMod
         _modVersion = GetModVersionFromAssembly();
         _modPreferences = MelonMoanModPreferences.Instance;
         _modPreferences.Initialize();
+        _updateState = new ModUpdateState(_modPreferences, _modVersion);
 
         _config = new ModConfig();
         _updateChecker = new UpdateChecker();
         _popupService = new OverlayPopupService();
         _settingsMenu = new MsmSettingsMenuService(_config, _modPreferences);
-        _settingsMigration = new SettingsMigrationService(_modPreferences, _popupService, _settingsMenu);
+        _settingsMigration = new SettingsMigrationService(_updateState, _popupService, _settingsMenu);
+        _releaseNotices = new ReleaseNoticeService(_updateState, _modPreferences, _popupService);
         _audioPlayer = new AudioPlayer(_config);
 
         // Initialize Sub-Controllers
@@ -112,13 +118,7 @@ public class MoanMod : MelonMod
         Func<bool> menuNotLoaded = () => UnityEngine.Object.FindObjectOfType<Il2Cpp.MenuStaticGui>() is null;
         yield return new WaitWhile(menuNotLoaded);
 
-        var isShowingNoticePopup = true;
-
-        if (!_modPreferences.NoticePopupShown)
-        {
-            ShowNoticePopup(() => isShowingNoticePopup = false);
-            yield return new WaitWhile((Func<bool>)(() => isShowingNoticePopup));
-        }
+        yield return _releaseNotices.ShowIfNeeded();
 
         var showingUpdatePreference = true;
         if (!_modPreferences.UpdateCheckingPopupShown)
@@ -127,7 +127,8 @@ public class MoanMod : MelonMod
             yield return new WaitWhile((Func<bool>)(() => showingUpdatePreference));
         }
 
-        yield return _settingsMigration.PromptIfNeeded(_modVersion);
+        yield return _settingsMigration.PromptIfNeeded();
+        _updateState.MarkVersionSeen();
 
         if (!_modPreferences.UpdateCheckingEnabled) yield break;
 
@@ -219,15 +220,6 @@ public class MoanMod : MelonMod
         _breathMoan.Reset();
         _cumMoan.Reset();
         _headpat.Reset();
-    }
-
-    private void ShowNoticePopup(Action dismissCallback = null)
-    {
-        string title = "MoanMod - Notice";
-        string message = "This is the first public release of MoanMod, please be aware that this didn't get thorough testing yet. Please report any bugs via github issues or to IkariDev on discord. You are also welcome to create PR's and make this mod better!\n\nHave fun!";
-
-        _popupService.SimplePopup(title, message, dismissCallback);
-        _modPreferences.NoticePopupShown = true;
     }
 
     private void ShowUpdatePreferenceDialog(Action onDismiss = null)

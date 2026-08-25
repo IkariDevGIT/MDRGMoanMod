@@ -1,6 +1,6 @@
-using MoanMod.MoanModPreferences;
 using MoanMod.PopupService;
 using MoanMod.SettingsMenu;
+using MoanMod.UpdateDetection;
 using UnityEngine;
 
 namespace MoanMod.SettingsMigration;
@@ -8,37 +8,24 @@ namespace MoanMod.SettingsMigration;
 /// <inheritdoc cref="ISettingsMigrationService"/>
 public sealed class SettingsMigrationService : ISettingsMigrationService
 {
-    private readonly IMoanModPreferences _preferences;
+    private readonly IModUpdateState _updateState;
     private readonly IPopupService _popupService;
     private readonly ISettingsMenuService _settingsMenu;
-    private readonly bool _hadPriorInstall;
 
-    public SettingsMigrationService(IMoanModPreferences preferences, IPopupService popupService, ISettingsMenuService settingsMenu)
+    public SettingsMigrationService(IModUpdateState updateState, IPopupService popupService, ISettingsMenuService settingsMenu)
     {
-        _preferences = preferences;
+        _updateState = updateState;
         _popupService = popupService;
         _settingsMenu = settingsMenu;
-        _hadPriorInstall = preferences.NoticePopupShown;
     }
 
-    public System.Collections.IEnumerator PromptIfNeeded(SemanticVersion currentVersion)
+    public System.Collections.IEnumerator PromptIfNeeded()
     {
-        if (ShouldPromptTuningReset(currentVersion))
-        {
-            var showingPrompt = true;
-            ShowTuningResetPrompt(() => showingPrompt = false);
-            yield return new WaitWhile((Func<bool>)(() => showingPrompt));
-        }
+        if (!_updateState.IsUpgrade) yield break;
 
-        _preferences.LastRunModVersion = currentVersion.ToString();
-    }
-
-    private bool ShouldPromptTuningReset(SemanticVersion currentVersion)
-    {
-        if (!_hadPriorInstall) return false;
-
-        bool hasRecordedVersion = SemanticVersion.TryParse(_preferences.LastRunModVersion, out var lastRunVersion);
-        return !hasRecordedVersion || lastRunVersion < currentVersion;
+        var showingPrompt = true;
+        ShowTuningResetPrompt(() => showingPrompt = false);
+        yield return new WaitWhile((Func<bool>)(() => showingPrompt));
     }
 
     private void ShowTuningResetPrompt(Action onDismiss)
