@@ -54,7 +54,7 @@ Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moanin
 
 ### What you need:
 
-* MelonLoader: [MelonLoader.Installer/releases](https://github.com/LavaGang/MelonLoader.Installer/releases/tag/4.3.0)
+* MelonLoader: [MelonLoader.Installer/releases](https://github.com/LavaGang/MelonLoader.Installer/releases/)
 * Mods.zip from [IkariDevGIT/MDRGMoanMod/releases](https://github.com/IkariDevGIT/MDRGMoanMod/releases)
 
 > Note: MAKE SURE to get the correct version, the version listed in the release (via "Compatible MDRG versions") needs to match up your MDRG Game version.
@@ -143,7 +143,7 @@ You can put multiple audio files in each folder. The filenames do not matter.
 ### Requirements
 - Visual Studio 2022+ (or any C# IDE supporting .NET 6)
 - .NET 6.0 SDK
-- Game install with MelonLoader and Il2Cpp assemblies, see [this](#what-you-need).
+- Game install with MelonLoader and Il2Cpp assemblies, see [this](#what-you-need)
 - [Mod Settings Menu (MSM)](https://github.com/Echo5Dev/MDRG-ModSettingsMenu) - required for the in-game settings page
 - WAV audio files (8 or 16-bit PCM format)
 
@@ -164,8 +164,8 @@ You can put multiple audio files in each folder. The filenames do not matter.
 
 All of the mod's tuning values (pleasure sensitivity, moan clustering, breathing rates, expression
 modifiers, position multipliers, mouth animation ranges) are editable in-game through the
-[Mod Settings Menu](https://github.com/Echo5Dev/MDRG-ModSettingsMenu) (Options > Mod Settings Menu >
-Moan Mod). Changes apply immediately and persist across restarts. Use the "Reset to Defaults"
+[Mod Settings Menu](https://github.com/Echo5Dev/MDRG-ModSettingsMenu) (**Options > Mod Settings Menu >
+Moan Mod**). Changes apply immediately and persist across restarts. Use the "Reset to Defaults"
 button to restore the original values.
 
 The original defaults live in `MoanModDefaults.cs` if you want to change what "default" means when
@@ -177,6 +177,7 @@ building from source.
 * Ivory61 - Helped with Popup code.
 * im-trisha - Refactored the code.
 * KlahTune - For letting me post this on the official Itch of the game.
+* Echo - Made the great [Mod Settings Menu](https://github.com/Echo5Dev/MDRG-ModSettingsMenu).
 
 * All the kind people from the MDRG Discord - Helped me with parts of the code, answered questions and play-tested my mod.
 
