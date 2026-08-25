@@ -8,7 +8,7 @@ using MoanMod.PopupService;
 using MoanMod.SettingsMenu;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "1.4.2-pre", "IkariDev")]
+[assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "2.0.0", "IkariDev")]
 [assembly: MelonGame("IncontinentCell", "My Dystopian Robot Girlfriend")]
 
 namespace MoanMod;
