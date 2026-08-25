@@ -6,6 +6,7 @@ using MoanMod.Controllers;
 using MoanMod.MoanModPreferences;
 using MoanMod.PopupService;
 using MoanMod.SettingsMenu;
+using MoanMod.SettingsMigration;
 using UnityEngine;
 
 [assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "2.0.0", "IkariDev")]
@@ -26,6 +27,7 @@ public class MoanMod : MelonMod
     private UpdateChecker _updateChecker;
     private IPopupService _popupService;
     private ISettingsMenuService _settingsMenu;
+    private ISettingsMigrationService _settingsMigration;
 
     private IHeadpatController _headpat;
     private IMouthController _mouth;
@@ -61,6 +63,7 @@ public class MoanMod : MelonMod
         _updateChecker = new UpdateChecker();
         _popupService = new OverlayPopupService();
         _settingsMenu = new MsmSettingsMenuService(_config, _modPreferences);
+        _settingsMigration = new SettingsMigrationService(_modPreferences, _popupService, _settingsMenu);
         _audioPlayer = new AudioPlayer(_config);
 
         // Initialize Sub-Controllers
@@ -123,6 +126,8 @@ public class MoanMod : MelonMod
             ShowUpdatePreferenceDialog(() => showingUpdatePreference = false);
             yield return new WaitWhile((Func<bool>)(() => showingUpdatePreference));
         }
+
+        yield return _settingsMigration.PromptIfNeeded(_modVersion);
 
         if (!_modPreferences.UpdateCheckingEnabled) yield break;
 

@@ -174,7 +174,11 @@ public sealed class MsmSettingsMenuService : ISettingsMenuService
             value => _preferences.UpdateCheckingEnabled = value,
             "Automatically check for new MoanMod releases on startup.");
 
-        MSM.AddButton(ModId, side, "Reset to Defaults", ResetToDefaults, ButtonColor.Red);
+        MSM.AddButton(ModId, side, "Reset to Defaults", () =>
+        {
+            ResetToDefaults();
+            MSM.RefreshSettings(ModId);
+        }, ButtonColor.Red);
     }
 
     private void BuildRightPanel()
@@ -223,7 +227,7 @@ public sealed class MsmSettingsMenuService : ISettingsMenuService
         }, tooltip);
     }
 
-    private void ResetToDefaults()
+    public void ResetToDefaults()
     {
         _mouthOpenMin.Value = MoanModDefaults.MouthOpen.Min;
         _mouthOpenMax.Value = MoanModDefaults.MouthOpen.Max;
@@ -259,6 +263,5 @@ public sealed class MsmSettingsMenuService : ISettingsMenuService
 
         _category.SaveToFile(printmsg: false);
         ApplyAllToConfig();
-        MSM.RefreshSettings(ModId);
     }
 }

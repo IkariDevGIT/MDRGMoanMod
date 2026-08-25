@@ -24,7 +24,12 @@ public interface IMoanModPreferences
     /// The last update check time (Windows filetime)
     /// </summary>
     long LastUpdateCheckTime { get; set; }
-    
+
+    /// <summary>
+    /// The mod version that last ran on this install, empty if never recorded
+    /// </summary>
+    string LastRunModVersion { get; set; }
+
     /// <summary>
     /// Initializes the storage bucket
     /// </summary>

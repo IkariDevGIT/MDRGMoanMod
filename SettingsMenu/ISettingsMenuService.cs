@@ -5,4 +5,7 @@ public interface ISettingsMenuService
 {
     /// <summary>Creates all MelonPreferences entries, applies them to the live config, and builds the MSM page.</summary>
     void Initialize();
+
+    /// <summary>Resets every tuning value back to MoanModDefaults and refreshes the MSM page.</summary>
+    void ResetToDefaults();
 }

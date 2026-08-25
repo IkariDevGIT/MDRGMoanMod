@@ -45,9 +45,15 @@ public class MelonMoanModPreferences : IMoanModPreferences
     }
     
     private MelonPreferences_Entry<long> _lastUpdateCheckTime;
-    public long LastUpdateCheckTime { 
-        get => _lastUpdateCheckTime.Value; 
+    public long LastUpdateCheckTime {
+        get => _lastUpdateCheckTime.Value;
         set => _setPref(_lastUpdateCheckTime, value);
+    }
+
+    private MelonPreferences_Entry<string> _lastRunModVersion;
+    public string LastRunModVersion {
+        get => _lastRunModVersion.Value;
+        set => _setPref(_lastRunModVersion, value);
     }
 
     public event Action<string> OnPreferencesUpdated;
@@ -61,6 +67,7 @@ public class MelonMoanModPreferences : IMoanModPreferences
         _updateCheckingEnabled = _category.CreateEntry("UpdateCheckingEnabled", true, "Enable automatic update checking");
         _askedAboutUpdateChecking = _category.CreateEntry("AskedAboutUpdateChecking", false, "User has been asked about update checking preference");
         _lastUpdateCheckTime = _category.CreateEntry("LastUpdateCheckTime", 0L, "Timestamp of last update check (ticks)");
+        _lastRunModVersion = _category.CreateEntry("LastRunModVersion", "", "Mod version that last ran on this install");
 
         Save(); // First flush to disk
 
