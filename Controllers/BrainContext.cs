@@ -21,7 +21,7 @@ public sealed class BrainContext
     public SceneType SceneType { get; }
     public int Lust { get; }
     public int Sympathy { get; }
-    public bool PrologueFinished { get; }
+    public bool HasAdvancedAi { get; }
 
     private BrainContext(
         Il2Cpp.ModelBrain brain,
@@ -31,7 +31,7 @@ public sealed class BrainContext
         SceneType sceneType,
         int lust,
         int sympathy,
-        bool prologueFinished)
+        bool hasAdvancedAi)
     {
         Brain = brain;
         Pleasure = pleasure;
@@ -40,7 +40,7 @@ public sealed class BrainContext
         SceneType = sceneType;
         Lust = lust;
         Sympathy = sympathy;
-        PrologueFinished = prologueFinished;
+        HasAdvancedAi = hasAdvancedAi;
     }
 
     private static SceneType SceneFrom(Il2Cpp.ModelBrain brain)
@@ -61,7 +61,6 @@ public sealed class BrainContext
 
         var expression = brain.ConnectedController?.Expression;
         var gameVars = Il2Cpp.GameScript.Instance?.GameVariables;
-        var stage = Il2Cpp.StorySingleton.Instance?.Stage1;
 
         return new BrainContext(
             brain: brain,
@@ -71,7 +70,7 @@ public sealed class BrainContext
             sceneType: SceneFrom(brain),
             lust: gameVars?.lust ?? 0,
             sympathy: gameVars?.sympathy ?? 0,
-            prologueFinished: Il2Cpp.GameScript.HasGameStarted && (stage?.IsPrologueFinished() ?? false)
+            hasAdvancedAi: gameVars?.IsBotSmart ?? false
         );
     }
 }

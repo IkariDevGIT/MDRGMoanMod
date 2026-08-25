@@ -32,13 +32,7 @@ public sealed class CummingController : ICummingController
         IsPlayingEndMoan = false;
         _moanTimer       = 0f;
 
-        if (!ctx.PrologueFinished)
-        {
-            MelonLogger.Msg("Prologue not finished — moaning disabled");
-            return;
-        }
-
-        MelonLogger.Msg($"Stats — Lust: {ctx.Lust}, Sympathy: {ctx.Sympathy}");
+        MelonLogger.Msg($"Stats - Lust: {ctx.Lust}, Sympathy: {ctx.Sympathy}");
 
         if (ctx.Sympathy <= 5 || ctx.Lust <= 10)
         {
@@ -93,7 +87,7 @@ public sealed class CummingController : ICummingController
 
         if (ctx.IsTalking)
         {
-            MelonLogger.Msg("Skipping moan — robot is talking");
+            MelonLogger.Msg("Skipping moan - robot is talking");
             _moanTimer = _moanCooldown;
             return;
         }

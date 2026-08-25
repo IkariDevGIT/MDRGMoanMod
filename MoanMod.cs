@@ -143,6 +143,7 @@ public class MoanMod : MelonMod
         if (_sexSceneStartCooldown > 0f) _sexSceneStartCooldown -= Time.deltaTime;
 
         if (!inSexScene) return;
+        if (!ctx.HasAdvancedAi) return;
 
         _mouth.Tick(ctx);
         _mouth.ApplyToLive2D(_brain.ConnectedController?.TryCast<Il2Cpp.ILive2DController_Mouth>());
@@ -184,6 +185,7 @@ public class MoanMod : MelonMod
     private void OnSexSceneEntered(BrainContext ctx)
     {
         MelonLogger.Msg($"=== Entered Sex Scene ({ctx.SceneType}) ===");
+        if (!ctx.HasAdvancedAi) MelonLogger.Msg("Advanced AI not active - moaning disabled");
         _sexSceneStartCooldown = MoanModConfig.SexSceneStartCooldown;
         _wasInSexScene = true;
     }
