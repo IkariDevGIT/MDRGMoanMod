@@ -11,7 +11,6 @@
 * [Updating / Uninstalling](#updating--uninstalling)
 * [Building from Source](#building-from-source)
 * [Configuration](#configuration)
-* [Requirements](#requirements)
 * [License](#license)
 
 ## Version and OS Notices
@@ -30,12 +29,13 @@
 > - iOS<br>
 > - Web
 
-> This mod is only compatible with MDRG 0.95 and onwards. 0.90 and below is **NOT** supported.
+> This mod is only compatible with MDRG 0.97 and onwards. 0.95 and below is **NOT** supported.
 
 ## Overview
 
 Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moaning based on pleasure and breathing.
 
+> [!WARNING]
 > Important note: You need to have unlocked Advanced AI, moaning is disabled until then.
 > Directly after unlocking Advanced AI you may notice that Jun doesn't moan as often as for example in my showcase video. Thats due to the this mod adjusting to how much she likes you, and how attracted she is to you. So she will moan more as you play the game more.
 
@@ -48,12 +48,13 @@ Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moanin
 * **Dynamic Expressions** - Sex moans adjust her facial expressions for more engaging scenes.
 * **Audio Variety** - The mod prevents the same sound from repeating over and over by cycling through clips. Previous sounds need time before they can play again.
 * **Moan States** - Different sounds for while-sex moans, cumming start (single startup moan), cumming ongoing, and cumming end (conclusion moan after cumming stops).
+* **Configuration** - Fully configurable in-game through the [ModSettingsMenu](https://github.com/Echo5Dev/MDRG-ModSettingsMenu).
 
 ## Installation
 
 ### What you need:
 
-* MelonLoader: [LavaGang/MelonLoader/releases](https://github.com/LavaGang/MelonLoader/releases)
+* MelonLoader: [MelonLoader.Installer/releases](https://github.com/LavaGang/MelonLoader.Installer/releases/tag/4.3.0)
 * Mods.zip from [IkariDevGIT/MDRGMoanMod/releases](https://github.com/IkariDevGIT/MDRGMoanMod/releases)
 
 > Note: MAKE SURE to get the correct version, the version listed in the release (via "Compatible MDRG versions") needs to match up your MDRG Game version.
@@ -68,7 +69,7 @@ Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moanin
    * Press "Add game manually"
    * Find and select the game's .exe file
    * Click on the game in the selection menu
-   * DO NOT enable "nightly builds". Install the MelonLoader version "0.7.2".
+   * **DO NOT enable "nightly builds"**. Install the MelonLoader version **"0.7.3"**.
    * Hit install
 
 3. First launch:
@@ -100,6 +101,7 @@ Game Install Folder/
         └── breath/
 ```
 
+> [!WARNING]
 > **Important**: Make sure your game installation path **does not contain non-Latin characters** (for example Cyrillic, Chinese, Japanese, etc.).  
 > Install the game in a folder with only standard English letters (e.g. `C:\Games\MDRG`). Otherwise the mod may not work.
 
@@ -108,7 +110,7 @@ Game Install Folder/
 Updating the mod works the same way as uninstalling:
 
 1. Go to your game’s `/Mods/` folder
-2. Delete `MoanMod.dll`
+2. Delete `MoanMod.dll` and `/Mods/ModSettingsMenu.dll`
 3. Delete the `MoanMod/` folder
 4. Install the new version (From [here](https://github.com/IkariDevGIT/MDRGMoanMod/releases)) by following the [installation steps](#installation)
 
@@ -141,30 +143,22 @@ You can put multiple audio files in each folder. The filenames do not matter.
 ### Requirements
 - Visual Studio 2022+ (or any C# IDE supporting .NET 6)
 - .NET 6.0 SDK
-- Game install with MelonLoader and Il2Cpp assemblies
+- Game install with MelonLoader and Il2Cpp assemblies, see [this](#what-you-need).
+- [Mod Settings Menu (MSM)](https://github.com/Echo5Dev/MDRG-ModSettingsMenu) - required for the in-game settings page
+- WAV audio files (8 or 16-bit PCM format)
 
 ### Setup
 
-1. Download the game (If not already downloaded)
+1. Follow the [normal installation](#steps) up until step 4.
+2. Place the ModSettingsMenu.dll in your mods folder.
 
-2. Get MelonLoader set up:
-   - Download MelonLoader from the link above
-   - Press "Add game manually"
-   - Find and select the game's .exe file
-   - Click on the game in the selection menu
-   - DO NOT enable "nightly builds". Install the MelonLoader version "0.7.2".
-   - Hit install
-
-3. First launch:
-   - Open the game once (this creates the necessary folders)
-
-4. Clone or extract the repository
-5. Copy `Local.props.example` content into a new file called `Local.props`
-6. Edit `Local.props` and set your game directory:
+3. Clone or extract the repository
+4. Copy `Local.props.example` content into a new file called `Local.props`
+5. Edit `Local.props` and set your game directory:
    `<GameDir>C:\Path\To\Your\Game\Install</GameDir>`
-7. Open `MoanMod.sln` in Visual Studio
-8. Build the project
-9. The `.dll` automatically deploys to your Mods folder
+6. Open `MoanMod.sln` in Visual Studio
+7. Build the project
+8. The `.dll` automatically deploys to your Mods folder
 
 ## Configuration
 
@@ -180,18 +174,12 @@ building from source.
 ## Credits
 
 * Sheep (The MDRG Dev) - Helped me with some parts of the code, answered many ~~stupid~~ questions i asked.
-* Ivory61 - Helped with Popup code and refactored the mod.
+* Ivory61 - Helped with Popup code.
+* im-trisha - Refactored the code.
 * KlahTune - For letting me post this on the official Itch of the game.
 
 * All the kind people from the MDRG Discord - Helped me with parts of the code, answered questions and play-tested my mod.
 
-
-## Requirements
-
-* My Dystopian Robot Girlfriend (latest version)
-* MelonLoader
-* [Mod Settings Menu (MSM)](https://github.com/Echo5Dev/MDRG-ModSettingsMenu) - required for the in-game settings page
-* WAV audio files (8 or 16-bit PCM format)
 
 ## License
 
