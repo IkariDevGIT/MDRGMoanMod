@@ -1,4 +1,5 @@
 using MelonLoader;
+using MoanMod.Config;
 using UnityEngine;
 
 namespace MoanMod.Controllers;
@@ -10,6 +11,7 @@ public sealed class CummingController : ICummingController
     private readonly AudioPlayer       _audioPlayer;
     private readonly IMouthController  _mouth;
     private readonly IBreathController _breath;
+    private readonly IModConfig        _config;
 
     private BrainContext _ctx;
     private float _moanTimer;
@@ -19,11 +21,12 @@ public sealed class CummingController : ICummingController
     public bool IsPendingEndMoan { get; private set; }
     public bool IsPlayingEndMoan { get; private set; }
 
-    public CummingController(AudioPlayer audioPlayer, IMouthController mouth, IBreathController breath)
+    public CummingController(AudioPlayer audioPlayer, IMouthController mouth, IBreathController breath, IModConfig config)
     {
         _audioPlayer = audioPlayer;
         _mouth       = mouth;
         _breath      = breath;
+        _config      = config;
     }
 
     public void OnStart(BrainContext ctx)
@@ -46,7 +49,7 @@ public sealed class CummingController : ICummingController
         float startLength = _audioPlayer.LastPlayedLengthFor(AudioType.CumStart);
         if (startLength > 0f)
         {
-            float amount = UnityEngine.Random.Range(MoanModConfig.MouthOpen.Min, MoanModConfig.MouthOpen.Max);
+            float amount = UnityEngine.Random.Range(_config.MouthOpen.Min, _config.MouthOpen.Max);
             _mouth.Open(amount, startLength);
             MelonLogger.Msg($"Playing start moan! Length: {startLength:F2}s, Mouth: {amount:F2}");
         }
@@ -131,7 +134,7 @@ public sealed class CummingController : ICummingController
         string name  = _audioPlayer.LastPlayedNameFor(AudioType.CumWhile);
         _moanTimer   = length + _moanCooldown;
 
-        float amount = UnityEngine.Random.Range(MoanModConfig.MouthOpen.Min, MoanModConfig.MouthOpen.Max);
+        float amount = UnityEngine.Random.Range(_config.MouthOpen.Min, _config.MouthOpen.Max);
         _mouth.Open(amount, length);
 
         MelonLogger.Msg(
@@ -146,7 +149,7 @@ public sealed class CummingController : ICummingController
         float length = _audioPlayer.LastPlayedLengthFor(AudioType.CumEnd);
         if (length > 0f)
         {
-            float amount = UnityEngine.Random.Range(MoanModConfig.MouthOpen.Min, MoanModConfig.MouthOpen.Max);
+            float amount = UnityEngine.Random.Range(_config.MouthOpen.Min, _config.MouthOpen.Max);
             _mouth.Open(amount, length);
         }
 

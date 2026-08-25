@@ -1,4 +1,5 @@
 using MelonLoader;
+using MoanMod.Config;
 using UnityEngine;
 
 namespace MoanMod.Controllers;
@@ -11,6 +12,8 @@ public sealed class SexMoanController : ISexMoanController
     private readonly IBreathController _breath;
     private readonly IHeadpatController _headpat;
     private readonly ICummingController _cumming;
+    private readonly IModConfig        _config;
+    private readonly IMoanExpressions  _expressions;
 
     // Keep last ctx so PlayInCluster (fired as a delayed breath callback) can use it.
     private BrainContext _ctx;
@@ -29,16 +32,20 @@ public sealed class SexMoanController : ISexMoanController
         IMouthController   mouth,
         IBreathController  breath,
         IHeadpatController headpat,
-        ICummingController cumming)
+        ICummingController cumming,
+        IModConfig         config,
+        IMoanExpressions   expressions)
     {
         _audioPlayer = audioPlayer;
         _mouth       = mouth;
         _breath      = breath;
         _headpat     = headpat;
         _cumming     = cumming;
+        _config      = config;
+        _expressions = expressions;
     }
 
-    public void OnBrainFound() => _pleasureLogTimer = MoanModConfig.Threshold.CheckInterval;
+    public void OnBrainFound() => _pleasureLogTimer = _config.Threshold.CheckInterval;
 
     public void Tick(BrainContext ctx)
     {
@@ -54,7 +61,7 @@ public sealed class SexMoanController : ISexMoanController
         _clusterCount      = 0;
         _clusterDelayTimer = 0f;
         _sexMoanTimer      = 0f;
-        _pleasureLogTimer  = MoanModConfig.Threshold.CheckInterval;
+        _pleasureLogTimer  = _config.Threshold.CheckInterval;
         _lastPleasure      = 0f;
     }
 
@@ -63,7 +70,7 @@ public sealed class SexMoanController : ISexMoanController
         _pleasureLogTimer -= Time.deltaTime;
         if (_pleasureLogTimer > 0f) return;
 
-        _pleasureLogTimer = MoanModConfig.Threshold.CheckInterval;
+        _pleasureLogTimer = _config.Threshold.CheckInterval;
 
         float pleasureChange = Mathf.Abs(_ctx.Pleasure - _lastPleasure);
         _lastPleasure = _ctx.Pleasure;
@@ -89,12 +96,12 @@ public sealed class SexMoanController : ISexMoanController
 
     private float CalculatePleasureThreshold()
     {
-        float normalized = Mathf.Clamp01(_ctx.Pleasure / MoanModConfig.Threshold.PleasureCap);
-        float thresholdRange = MoanModConfig.Threshold.BaseLow - MoanModConfig.Threshold.BaseHigh;
-        float required = MoanModConfig.Threshold.BaseLow - (normalized * thresholdRange);
+        float normalized = Mathf.Clamp01(_ctx.Pleasure / _config.Threshold.PleasureCap);
+        float thresholdRange = _config.Threshold.BaseLow - _config.Threshold.BaseHigh;
+        float required = _config.Threshold.BaseLow - (normalized * thresholdRange);
 
-        if (_headpat.IsActive) required += MoanModConfig.Modifiers.HeadpatPenalty;
-        if (_ctx.SceneType == SceneType.Cowgirl) required *= MoanModConfig.Modifiers.CowgirlMultiplier;
+        if (_headpat.IsActive) required += _config.Modifiers.HeadpatPenalty;
+        if (_ctx.SceneType == SceneType.Cowgirl) required *= _config.Modifiers.CowgirlMultiplier;
 
         return required;
     }
@@ -117,7 +124,7 @@ public sealed class SexMoanController : ISexMoanController
 
         if ((_clusterDelayTimer -= Time.deltaTime) > 0f) return;
 
-        if (ShouldContinueCluster() && _clusterCount < MoanModConfig.Cluster.MaxMoans)
+        if (ShouldContinueCluster() && _clusterCount < _config.Cluster.MaxMoans)
         {
             _clusterCount++;
 
@@ -138,22 +145,22 @@ public sealed class SexMoanController : ISexMoanController
 
         float length = _audioPlayer.LastPlayedLengthFor(AudioType.Sex);
         string name  = _audioPlayer.LastPlayedNameFor(AudioType.Sex);
-        float amount = UnityEngine.Random.Range(MoanModConfig.MouthOpen.Min, MoanModConfig.MouthOpen.Max);
+        float amount = UnityEngine.Random.Range(_config.MouthOpen.Min, _config.MouthOpen.Max);
 
         _mouth.Open(amount, length);
-        MoanExpressions.Apply(_ctx.Brain, length);
+        _expressions.Apply(_ctx.Brain, length);
 
-        _clusterDelayTimer = length + UnityEngine.Random.Range(MoanModConfig.Cluster.Delay.Min, MoanModConfig.Cluster.Delay.Max);
+        _clusterDelayTimer = length + UnityEngine.Random.Range(_config.Cluster.Delay.Min, _config.Cluster.Delay.Max);
 
         MelonLogger.Msg($"Sex moan '{name}' (cluster #{_clusterCount})! Clip: {length:F2}s, Mouth: {amount:F2}");
     }
 
     private bool ShouldContinueCluster()
     {
-        if (_clusterCount < 1 || _clusterCount > MoanModConfig.Cluster.Probabilities.Length)
+        if (_clusterCount < 1 || _clusterCount > _config.Cluster.Probabilities.Length)
             return false;
 
-        return UnityEngine.Random.Range(0f, 1f) < MoanModConfig.Cluster.Probabilities[_clusterCount - 1];
+        return UnityEngine.Random.Range(0f, 1f) < _config.Cluster.Probabilities[_clusterCount - 1];
     }
 
     private void EndCluster()

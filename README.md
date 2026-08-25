@@ -79,7 +79,7 @@ Audio and expression mod for *My Dystopian Robot Girlfriend* with dynamic moanin
 
    * Go to your game folder
    * Extract the contents of Mods.zip directly into the `/Mods/` folder
-   * Make sure the files are placed correctly: `/Mods/MoanMod.dll` and `/Mods/MoanMod/...`
+   * Make sure the files are placed correctly: `/Mods/MoanMod.dll`, `/Mods/ModSettingsMenu.dll`, and `/Mods/MoanMod/...`
    * Don't put them in a subfolder like `/Mods/Mods/`
 
 ### Expected folder structure:
@@ -90,6 +90,7 @@ Game Install Folder/
 ├── (Other game files...)
 └── Mods/
     ├── MoanMod.dll
+    ├── ModSettingsMenu.dll
     └── MoanMod/
         ├── cumming/
         │   ├── start/
@@ -167,16 +168,14 @@ You can put multiple audio files in each folder. The filenames do not matter.
 
 ## Configuration
 
-Edit `MoanModConfig.cs` to adjust:
+All of the mod's tuning values (pleasure sensitivity, moan clustering, breathing rates, expression
+modifiers, position multipliers, mouth animation ranges) are editable in-game through the
+[Mod Settings Menu](https://github.com/Echo5Dev/MDRG-ModSettingsMenu) (Options > Mod Settings Menu >
+Moan Mod). Changes apply immediately and persist across restarts. Use the "Reset to Defaults"
+button to restore the original values.
 
-* Threshold sensitivity and pleasure scaling
-* Cluster behavior (max moans, probabilities, repeat chances)
-* Breathing trigger rates based on moan frequency
-* Expression modifiers (lewdness and happiness)
-* Position-specific multipliers
-* Mouth animation ranges
-
-Rebuild after making changes.
+The original defaults live in `MoanModDefaults.cs` if you want to change what "default" means when
+building from source.
 
 ## Credits
 
@@ -191,6 +190,7 @@ Rebuild after making changes.
 
 * My Dystopian Robot Girlfriend (latest version)
 * MelonLoader
+* [Mod Settings Menu (MSM)](https://github.com/Echo5Dev/MDRG-ModSettingsMenu) - required for the in-game settings page
 * WAV audio files (8 or 16-bit PCM format)
 
 ## License

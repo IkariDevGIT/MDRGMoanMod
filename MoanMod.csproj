@@ -34,6 +34,10 @@
         <Reference Include="Il2CppInterop.Runtime">
             <HintPath>$(MelonLoaderNet6)\Il2CppInterop.Runtime.dll</HintPath>
         </Reference>
+        <Reference Include="ModSettingsMenu">
+            <HintPath>$(ModsDir)\ModSettingsMenu.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
     </ItemGroup>
 
     <!-- MDRG Il2Cpp assemblies -->

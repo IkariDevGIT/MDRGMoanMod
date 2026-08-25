@@ -1,4 +1,5 @@
 using MelonLoader;
+using MoanMod.Config;
 using UnityEngine;
 
 namespace MoanMod.Controllers;
@@ -8,6 +9,7 @@ public sealed class BreathController : IBreathController
 {
     private readonly AudioPlayer _audioPlayer;
     private readonly IMouthController _mouth;
+    private readonly IModConfig _config;
 
     private readonly Queue<float> _moanTimestamps = new();
     private bool _breathPlaying;
@@ -18,17 +20,18 @@ public sealed class BreathController : IBreathController
     public bool IsActive => _breathPlaying || _postBreathDelay > 0f;
     public bool LastActionWasBreath { get; set; }
 
-    public BreathController(AudioPlayer audioPlayer, IMouthController mouth)
+    public BreathController(AudioPlayer audioPlayer, IMouthController mouth, IModConfig config)
     {
         _audioPlayer = audioPlayer;
         _mouth = mouth;
+        _config = config;
     }
 
     public void AddMoanTimestamp() => _moanTimestamps.Enqueue(Time.time);
 
     public int GetMoanCountInWindow()
     {
-        float cutoff = Time.time - MoanModConfig.Breath.MoanTrackingWindow;
+        float cutoff = Time.time - _config.Breath.MoanTrackingWindow;
         while (_moanTimestamps.Count > 0 && _moanTimestamps.Peek() < cutoff)
             _moanTimestamps.Dequeue();
         return _moanTimestamps.Count;
@@ -39,8 +42,8 @@ public sealed class BreathController : IBreathController
         if (!_audioPlayer.HasAudioFor(AudioType.Breath) || LastActionWasBreath || ctx.IsTalking) return false;
 
         int count = GetMoanCountInWindow();
-        int tier  = Mathf.Min(count / 2, MoanModConfig.Breath.Probabilities.Length - 1);
-        return UnityEngine.Random.Range(0f, 1f) < MoanModConfig.Breath.Probabilities[tier];
+        int tier  = Mathf.Min(count / 2, _config.Breath.Probabilities.Length - 1);
+        return UnityEngine.Random.Range(0f, 1f) < _config.Breath.Probabilities[tier];
     }
 
     public bool TryStartSequence(BrainContext ctx, Action onReady)
@@ -54,12 +57,12 @@ public sealed class BreathController : IBreathController
         _onReady = onReady;
         LastActionWasBreath = true;
 
-        float mouthAmount = UnityEngine.Random.Range(MoanModConfig.BreathMouthOpen.Min, MoanModConfig.BreathMouthOpen.Max);
+        float mouthAmount = UnityEngine.Random.Range(_config.BreathMouthOpen.Min, _config.BreathMouthOpen.Max);
         _mouth.Open(mouthAmount, length);
 
         MelonLogger.Msg(
             $"Breath '{_audioPlayer.LastPlayedNameFor(AudioType.Breath)}'! " +
-            $"Length: {length:F2}s, Moans in last {MoanModConfig.Breath.MoanTrackingWindow:F1}s: {GetMoanCountInWindow()}");
+            $"Length: {length:F2}s, Moans in last {_config.Breath.MoanTrackingWindow:F1}s: {GetMoanCountInWindow()}");
 
         return true;
     }
@@ -73,8 +76,8 @@ public sealed class BreathController : IBreathController
             {
                 _breathPlaying   = false;
                 _postBreathDelay = UnityEngine.Random.Range(
-                    MoanModConfig.Breath.DelayAfterMoan.Min,
-                    MoanModConfig.Breath.DelayAfterMoan.Max
+                    _config.Breath.DelayAfterMoan.Min,
+                    _config.Breath.DelayAfterMoan.Max
                 );
             }
         }

@@ -1,3 +1,4 @@
+using MoanMod.Config;
 using UnityEngine;
 
 namespace MoanMod.Controllers;
@@ -5,10 +6,17 @@ namespace MoanMod.Controllers;
 /// <inheritdoc cref="IHeadpatController"/>
 public sealed class HeadpatController : IHeadpatController
 {
+    private readonly IModConfig _config;
+
     private float _lastX;
     private float _lastY;
 
     public bool IsActive { get; private set; }
+
+    public HeadpatController(IModConfig config)
+    {
+        _config = config;
+    }
 
     public void Tick(BrainContext ctx)
     {
@@ -28,8 +36,8 @@ public sealed class HeadpatController : IHeadpatController
         _lastX   = x;
         _lastY   = y;
 
-        IsActive = dx >= MoanModConfig.Modifiers.HeadpatMovementMin
-                || dy >= MoanModConfig.Modifiers.HeadpatMovementMin;
+        IsActive = dx >= _config.Modifiers.HeadpatMovementMin
+                || dy >= _config.Modifiers.HeadpatMovementMin;
     }
 
     public void Reset()

@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
 using MelonLoader;
 using MelonLoader.Utils;
+using MoanMod.Config;
 using MoanMod.Controllers;
 using MoanMod.MoanModPreferences;
 using MoanMod.PopupService;
+using MoanMod.SettingsMenu;
 using UnityEngine;
 
 [assembly: MelonInfo(typeof(MoanMod.MoanMod), "Moan Mod", "1.4.2-pre", "IkariDev")]
@@ -13,13 +15,17 @@ namespace MoanMod;
 
 public class MoanMod : MelonMod
 {
+    private static readonly SemanticVersion ExpectedGameVersion = new(0, 97, 0);
+
     private Il2Cpp.ModelBrain _brain;
     private AudioPlayer _audioPlayer;
     private SemanticVersion _modVersion;
 
+    private IModConfig _config;
     private IMoanModPreferences _modPreferences;
     private UpdateChecker _updateChecker;
     private IPopupService _popupService;
+    private ISettingsMenuService _settingsMenu;
 
     private IHeadpatController _headpat;
     private IMouthController _mouth;
@@ -41,6 +47,8 @@ public class MoanMod : MelonMod
         InitializeSystems();
         ValidateGameVersion();
         LoadAudioAssets();
+
+        _settingsMenu.Initialize();
     }
 
     private void InitializeSystems()
@@ -49,25 +57,28 @@ public class MoanMod : MelonMod
         _modPreferences = MelonMoanModPreferences.Instance;
         _modPreferences.Initialize();
 
+        _config = new ModConfig();
         _updateChecker = new UpdateChecker();
         _popupService = new OverlayPopupService();
-        _audioPlayer = new AudioPlayer();
+        _settingsMenu = new MsmSettingsMenuService(_config, _modPreferences);
+        _audioPlayer = new AudioPlayer(_config);
 
         // Initialize Sub-Controllers
-        _headpat = new HeadpatController();
+        var expressions = new MoanExpressions(_config);
+        _headpat = new HeadpatController(_config);
         _mouth = new MouthController();
-        _breathMoan = new BreathController(_audioPlayer, _mouth);
-        _cumMoan = new CummingController(_audioPlayer, _mouth, _breathMoan);
-        _sexMoan = new SexMoanController(_audioPlayer, _mouth, _breathMoan, _headpat, _cumMoan);
+        _breathMoan = new BreathController(_audioPlayer, _mouth, _config);
+        _cumMoan = new CummingController(_audioPlayer, _mouth, _breathMoan, _config);
+        _sexMoan = new SexMoanController(_audioPlayer, _mouth, _breathMoan, _headpat, _cumMoan, _config, expressions);
     }
 
     private void ValidateGameVersion()
     {
-        if (SemanticVersion.TryParse(Application.version, out var gameVersion) && gameVersion.MajorMinorEquals(MoanModConfig.ExpectedGameVersion)) return;
+        if (SemanticVersion.TryParse(Application.version, out var gameVersion) && gameVersion.MajorMinorEquals(ExpectedGameVersion)) return;
 
         MelonLogger.Warning("================================================================================");
         MelonLogger.Warning("==================== !!! VERSION MISMATCH WARNING !!! ==========================");
-        MelonLogger.Warning($"This mod was made for game version {MoanModConfig.ExpectedGameVersion}.x");
+        MelonLogger.Warning($"This mod was made for game version {ExpectedGameVersion}.x");
         MelonLogger.Warning($"You are running game version {Application.version}");
         MelonLogger.Warning("================================================================================");
     }
@@ -186,7 +197,7 @@ public class MoanMod : MelonMod
     {
         MelonLogger.Msg($"=== Entered Sex Scene ({ctx.SceneType}) ===");
         if (!ctx.HasAdvancedAi) MelonLogger.Msg("Advanced AI not active - moaning disabled");
-        _sexSceneStartCooldown = MoanModConfig.SexSceneStartCooldown;
+        _sexSceneStartCooldown = _config.SexSceneStartCooldown;
         _wasInSexScene = true;
     }
 

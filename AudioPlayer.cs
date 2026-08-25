@@ -1,5 +1,6 @@
 ﻿using Il2CppFungus;
 using MelonLoader;
+using MoanMod.Config;
 using UnityEngine;
 
 namespace MoanMod;
@@ -29,7 +30,7 @@ class ClipCollection
     public int Count => Clips.Count;
     public bool HasAudio => Count > 0;
 
-    public MoanClip SelectNext(System.Random rnd, bool useCooldowns = false)
+    public MoanClip SelectNext(System.Random rnd, ClusterSettings cluster, bool useCooldowns = false)
     {
         if (!HasAudio) return null;
 
@@ -37,7 +38,7 @@ class ClipCollection
 
         // Apply repeat chance if cooldowns are enabled and we get lucky
         var maybeRepeat = useCooldowns && LastPlayed?.IsAvailable == true;
-        if (maybeRepeat && rnd.NextDouble() < MoanModConfig.Cluster.RepeatChance)
+        if (maybeRepeat && rnd.NextDouble() < cluster.RepeatChance)
         {
             selectedMoan = LastPlayed;
         }
@@ -49,7 +50,7 @@ class ClipCollection
         if (!useCooldowns) return selectedMoan;
 
 
-        selectedMoan.CooldownCounter = MoanModConfig.Cluster.RepeatCooldown;
+        selectedMoan.CooldownCounter = cluster.RepeatCooldown;
         foreach (var clip in Clips.Where(c => c != selectedMoan && c.CooldownCounter > 0))
             clip.CooldownCounter -= 1;
         
@@ -81,11 +82,14 @@ class ClipCollection
 public class AudioPlayer
 {
     private readonly Dictionary<AudioType, ClipCollection> _audioCollections = new();
+    private readonly IModConfig _config;
     private  Il2Cpp.SoundSingleton _soundManager;
     private readonly System.Random _random = new();
 
-    public AudioPlayer()
+    public AudioPlayer(IModConfig config)
     {
+        _config = config;
+
         foreach (AudioType type in Enum.GetValues(typeof(AudioType)))
             _audioCollections[type] = new ClipCollection();
     }
@@ -209,7 +213,7 @@ public class AudioPlayer
     private float PlayAudioType(AudioType type, bool useCooldowns, float volumeMultiplier = 1.0f)
     {
         var collection = _audioCollections[type];
-        var clipToPlay = collection.SelectNext(_random, useCooldowns);
+        var clipToPlay = collection.SelectNext(_random, _config.Cluster, useCooldowns);
 
         if (_soundManager == null || clipToPlay == null) return 0f;
 

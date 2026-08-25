@@ -1,4 +1,4 @@
-﻿namespace MoanMod;
+namespace MoanMod;
 
 // ==================== HELPER STRUCTS ====================
 
@@ -88,13 +88,10 @@ public readonly struct ClusterSettings
     }
 }
 
-// ==================== CONFIGURATION ====================
+// ==================== DEFAULTS ====================
 
-public static class MoanModConfig
+public static class MoanModDefaults
 {
-    // Game version
-    public static readonly SemanticVersion ExpectedGameVersion = new SemanticVersion(0, 97, 0);
-
     // Mouth animation
     public static readonly FloatRange MouthOpen = new(min: 0.4f, max: 0.8f);
     public static readonly FloatRange BreathMouthOpen = new(min: 0.2f, max: 0.55f);
