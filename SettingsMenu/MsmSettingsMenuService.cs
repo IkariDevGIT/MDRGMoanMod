@@ -21,6 +21,7 @@ public sealed class MsmSettingsMenuService : ISettingsMenuService
     private MelonPreferences_Entry<float> _mouthOpenMax;
     private MelonPreferences_Entry<float> _breathMouthOpenMin;
     private MelonPreferences_Entry<float> _breathMouthOpenMax;
+    private MelonPreferences_Entry<float> _moanVolume;
     private MelonPreferences_Entry<float> _sexSceneStartCooldown;
     private MelonPreferences_Entry<float> _thresholdCheckInterval;
     private MelonPreferences_Entry<float> _thresholdBaseLow;
@@ -87,6 +88,8 @@ public sealed class MsmSettingsMenuService : ISettingsMenuService
         _breathMouthOpenMin = _category.CreateEntry("BreathMouthOpenMin", bd.Min);
         _breathMouthOpenMax = _category.CreateEntry("BreathMouthOpenMax", bd.Max);
 
+        _moanVolume = _category.CreateEntry("MoanVolume", MoanModDefaults.MoanVolume);
+
         _sexSceneStartCooldown = _category.CreateEntry("SexSceneStartCooldown", MoanModDefaults.SexSceneStartCooldown);
 
         var t = MoanModDefaults.Threshold;
@@ -139,6 +142,7 @@ public sealed class MsmSettingsMenuService : ISettingsMenuService
     {
         _config.MouthOpen = new FloatRange(_mouthOpenMin.Value, _mouthOpenMax.Value);
         _config.BreathMouthOpen = new FloatRange(_breathMouthOpenMin.Value, _breathMouthOpenMax.Value);
+        _config.MoanVolume = _moanVolume.Value;
         _config.SexSceneStartCooldown = _sexSceneStartCooldown.Value;
 
         _config.Threshold = new ThresholdSettings(
@@ -173,6 +177,10 @@ public sealed class MsmSettingsMenuService : ISettingsMenuService
     private void BuildLeftPanel()
     {
         const PanelSide side = PanelSide.LeftPanel;
+
+        MSM.AddLabel(ModId, side, "Audio", Utilities.FontSize.Medium);
+        FloatSlider(side, "Moan Volume", _moanVolume, 0f, 1f, "Volume of moan sounds, independent of the game's SFX volume.");
+        MSM.AddPadding(ModId, side);
 
         MSM.AddLabel(ModId, side, "Mouth", Utilities.FontSize.Medium);
         FloatSlider(side, "Mouth Open Min", _mouthOpenMin, 0f, 1f);
@@ -270,6 +278,7 @@ public sealed class MsmSettingsMenuService : ISettingsMenuService
         _mouthOpenMax.Value = MoanModDefaults.MouthOpen.Max;
         _breathMouthOpenMin.Value = MoanModDefaults.BreathMouthOpen.Min;
         _breathMouthOpenMax.Value = MoanModDefaults.BreathMouthOpen.Max;
+        _moanVolume.Value = MoanModDefaults.MoanVolume;
         _sexSceneStartCooldown.Value = MoanModDefaults.SexSceneStartCooldown;
 
         _thresholdCheckInterval.Value = MoanModDefaults.Threshold.CheckInterval;

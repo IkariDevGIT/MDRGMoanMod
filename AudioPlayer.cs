@@ -217,7 +217,7 @@ public class AudioPlayer
 
         if (_soundManager == null || clipToPlay == null) return 0f;
 
-        float finalVolume = Mathf.Clamp01(Il2Cpp.OptionsStatic.SfxVolume * volumeMultiplier);
+        float finalVolume = Mathf.Clamp01(_config.MoanVolume * volumeMultiplier);
         _soundManager.Play(clipToPlay.Clip, finalVolume, null);
 
         return clipToPlay.Clip.length;

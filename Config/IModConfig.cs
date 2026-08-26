@@ -5,6 +5,7 @@ public interface IModConfig
 {
     FloatRange MouthOpen { get; set; }
     FloatRange BreathMouthOpen { get; set; }
+    float MoanVolume { get; set; }
     float SexSceneStartCooldown { get; set; }
     ThresholdSettings Threshold { get; set; }
     ModifierSettings Modifiers { get; set; }

@@ -96,6 +96,9 @@ public static class MoanModDefaults
     public static readonly FloatRange MouthOpen = new(min: 0.4f, max: 0.8f);
     public static readonly FloatRange BreathMouthOpen = new(min: 0.2f, max: 0.55f);
 
+    // Audio
+    public const float MoanVolume = 0.5f;
+
     // Sex scene
     public const float SexSceneStartCooldown = 3.0f;
 

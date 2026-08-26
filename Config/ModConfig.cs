@@ -5,6 +5,7 @@ public sealed class ModConfig : IModConfig
 {
     public FloatRange MouthOpen { get; set; }
     public FloatRange BreathMouthOpen { get; set; }
+    public float MoanVolume { get; set; }
     public float SexSceneStartCooldown { get; set; }
     public ThresholdSettings Threshold { get; set; }
     public ModifierSettings Modifiers { get; set; }
@@ -18,6 +19,7 @@ public sealed class ModConfig : IModConfig
     {
         MouthOpen = MoanModDefaults.MouthOpen;
         BreathMouthOpen = MoanModDefaults.BreathMouthOpen;
+        MoanVolume = MoanModDefaults.MoanVolume;
         SexSceneStartCooldown = MoanModDefaults.SexSceneStartCooldown;
         Threshold = MoanModDefaults.Threshold;
         Modifiers = MoanModDefaults.Modifiers;
