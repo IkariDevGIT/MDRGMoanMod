@@ -2,6 +2,13 @@
 
 [Preview video of the mod](https://tr.ee/W9rxezOVbP)
 
+<br><br><br><br><br><br><br>
+
+> [!WARNING]
+> For people downloading the mod while seeing this, PLEASE use [THIS](https://github.com/IkariDevGIT/MDRGMoanMod/blob/4c82819adf78e70e0c7f47d76e27a76d79955d59/README.md) (**<-- Click on that link!**) version of the documentation until the new version of the mod releases!
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+
 ## Table of Contents
 
 * [Version Notice](#version-notice)
