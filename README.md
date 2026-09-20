@@ -2,6 +2,8 @@
 
 [Preview video of the mod](https://tr.ee/W9rxezOVbP)
 
+You can also read about MoanMod on my blog here: https://ikari.sillytilly.org/blog/mdrg-moan-mod/​.
+
 <br><br><br><br><br><br><br>
 
 > [!WARNING]
