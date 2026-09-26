@@ -7,7 +7,13 @@ You can also read about MoanMod on my blog here: [https://ikari.sillytilly.org/b
 <br><br><br><br><br><br><br>
 
 > [!WARNING]
-> For people downloading the mod while seeing this, PLEASE use [THIS](https://github.com/IkariDevGIT/MDRGMoanMod/blob/4c82819adf78e70e0c7f47d76e27a76d79955d59/README.md) (**<-- Click on that link!**) version of the documentation until the new version of the mod releases!
+> For people downloading the mod while seeing this, PLEASE use [THIS](https://github.com/IkariDevGIT/MDRGMoanMod/blob/4c82819adf78e70e0c7f47d76e27a76d79955d59/README.md) (**<-- Click on that link!**) version of the documentation until the new version of the mod releases! **THE VERSION with the MOD SETTING MENU is NOT out yet, please stop reporting problems about it not being there after installing!**
+
+> [!WARNING]
+> For people downloading the mod while seeing this, PLEASE use [THIS](https://github.com/IkariDevGIT/MDRGMoanMod/blob/4c82819adf78e70e0c7f47d76e27a76d79955d59/README.md) (**<-- Click on that link!**) version of the documentation until the new version of the mod releases! **THE VERSION with the MOD SETTING MENU is NOT out yet, please stop reporting problems about it not being there after installing!**
+
+> [!WARNING]
+> For people downloading the mod while seeing this, PLEASE use [THIS](https://github.com/IkariDevGIT/MDRGMoanMod/blob/4c82819adf78e70e0c7f47d76e27a76d79955d59/README.md) (**<-- Click on that link!**) version of the documentation until the new version of the mod releases! **THE VERSION with the MOD SETTING MENU is NOT out yet, please stop reporting problems about it not being there after installing!**
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br>
 
